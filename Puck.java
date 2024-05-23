@@ -7,6 +7,7 @@ public class Puck implements Runnable{
     int puckY;
     float puckAngle;
     float puckSpeed;
+    float maxPuckSpeed = 27;
     Table table;
 
     public Puck(Table table) {
@@ -41,11 +42,29 @@ public class Puck implements Runnable{
             puckAngle = (float) Math.atan2(puckY - table.playerMalletY, puckX - table.playerMalletX);
             puckSpeed /= 1.3; // slows down after hitting
             puckSpeed += (puckSpeed/4)*(table.playerMalletSpeed/4); // puck speed with player speed
+            
+            if(puckSpeed > maxPuckSpeed) { // ensures puck speed is never too high
+            	puckSpeed = maxPuckSpeed;
+            }
         }
 
         // Move the puck
         puckX += puckSpeed * Math.cos(puckAngle);
         puckY += puckSpeed * Math.sin(puckAngle);
+        
+        double distance = Math.sqrt(Math.pow(table.playerMalletX - puckX, 2) + Math.pow(table.playerMalletY - puckY, 2)); // ensures no overlaps occur when the puck is hit by player mallet
+        if(distance < 55 && table.playerMalletY > 440) {
+        	puckAngle = (float) Math.atan2(puckY - table.playerMalletY, puckX - table.playerMalletX);
+            puckSpeed /= 1.3; // slows down after hitting
+            puckSpeed += (puckSpeed/4)*(table.playerMalletSpeed/4); // puck speed with player speed
+            if(puckSpeed > maxPuckSpeed) { // ensures puck speed is never too high
+            	puckSpeed = maxPuckSpeed;
+            }
+        	double puckMoveX = Math.cos(puckAngle)*55;
+        	double puckMoveY = Math.sin(puckAngle)*55;
+        	puckX = (int)(table.playerMalletX + puckMoveX);
+            puckY = (int)(table.playerMalletY + puckMoveY);
+        }
 
         // collisions with table boundaries
         if (puckX < 25 || puckX > 460) {
@@ -73,6 +92,9 @@ public class Puck implements Runnable{
 
             puckAngle += changeAngle;
             puckSpeed += changeSpeed;
+            if(puckSpeed > maxPuckSpeed) { // ensures puck speed is never too high
+            	puckSpeed = maxPuckSpeed;
+            }
         }
 
         table.repaint(); // repaint the table to update puck position
