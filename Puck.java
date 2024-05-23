@@ -9,6 +9,7 @@ public class Puck implements Runnable{
     float puckSpeed;
     float maxPuckSpeed = 27;
     Table table;
+    Computer computer;
     AirHockey airhockey;
 
     public Puck(Table table) {
@@ -48,6 +49,17 @@ public class Puck implements Runnable{
             	puckSpeed = maxPuckSpeed;
             }
         }
+        if(table.CompHitPuck()) {
+        	
+        	//puckAngle = (float) Math.atan2(puckY - table.playerMalletY, puckY -table.playerMalletX);
+        	//puckSpeed /= 1.3;
+        	//puckSpeed += (puckSpeed/4)*(computer.compSpeed/4); 
+        	//if(puckSpeed > maxPuckSpeed) {
+        		//puckSpeed = maxPuckSpeed;
+        	//}
+        	
+        	
+        }
 
         // Move the puck
         puckX += puckSpeed * Math.cos(puckAngle);
@@ -84,10 +96,10 @@ public class Puck implements Runnable{
         
         // puck inside goal
         if(puckY < 35 - 25) { // player scored!
-        	airhockey.PlayerScored();
+        	//airhockey.PlayerScored();
         }
         if(puckY > 858 + 25) { // computer scored!
-        	airhockey.ComputerScored();
+        	//airhockey.ComputerScored();
         }
 
         // friction to slow down the puck over time

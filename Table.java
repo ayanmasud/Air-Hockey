@@ -8,19 +8,22 @@ public class Table extends JPanel implements Runnable {
     int playerMalletY = 800;
     float playerMalletSpeed = 0;
     Puck puck;
-
+    Computer Comp;
     public Table() {
         super();
         puck = new Puck(this);
+        Comp = new Computer(this);
         addMouseMotionListener(new MouseAdapter() {
             public void mouseMoved(MouseEvent e) {
                 playerMalletX = e.getX();
                 playerMalletY = e.getY();
-
+                
                 if(PlayerHitPuck()) {
                     puck.move();
                 }
-
+                
+                
+                
                 if(playerMalletY < 470) { // restrictions to ensure players mallet doesn't go off the table
                     playerMalletY = 470;
                 }
@@ -48,7 +51,14 @@ public class Table extends JPanel implements Runnable {
         }
         return false;
     }
+    public boolean CompHitPuck() {
+    	double distance = Math.sqrt(Math.pow(Comp.compx - puck.puckX, 2) + Math.pow(Comp.compy - puck.puckY, 2));
 
+    	if(distance <= 55 ) {
+            return true;
+        }
+    	return false;
+    }
     @Override
     public void run() { // used for determining how fast the player is moving
         while (true) {
@@ -78,6 +88,7 @@ public class Table extends JPanel implements Runnable {
         g.setColor(Color.RED); // Set color to red
         g.fillOval(playerMalletX - 30, playerMalletY - 30, 60, 60); // Draw mallet centered at mouse position
         puck.draw(g); // Draw the puck
+        Comp.draw(g);
     }
 
 }
