@@ -7,13 +7,17 @@ public class Table extends JPanel implements Runnable {
     int playerMalletX = 250;
     int playerMalletY = 800;
     float playerMalletSpeed = 0;
+    
+    int compX = 250;
+    int compY = 100;
+    float compAngle = 0;
+	float compSpeed = 0;
+    
     Puck puck;
-    Computer comp;
     AirHockey airhockey;
     public Table(AirHockey airhockey) {
         super();
         puck = new Puck(this, airhockey);
-        comp = new Computer(this);
         addMouseMotionListener(new MouseAdapter() {
             public void mouseMoved(MouseEvent e) {
                 playerMalletX = e.getX();
@@ -53,9 +57,9 @@ public class Table extends JPanel implements Runnable {
         return false;
     }
     public boolean CompHitPuck() {
-    	double distance = Math.sqrt(Math.pow(comp.compx - puck.puckX, 2) + Math.pow(comp.compy - puck.puckY, 2));
+    	double distance = Math.sqrt(Math.pow(compX - puck.puckX, 2) + Math.pow(compY - puck.puckY, 2));
 
-    	if(distance <= 55 ) {
+    	if(distance <= 55) {
             return true;
         }
     	return false;
@@ -74,6 +78,8 @@ public class Table extends JPanel implements Runnable {
             int posyChange = Math.abs(playerMalletY-posy);
             double distance = Math.sqrt(Math.pow(posxChange, 2) + Math.pow(posyChange, 2)); // compares current position from position 20 millis ago
             playerMalletSpeed = (float)(distance);
+            
+            repaint(); // will be utilized for 
         }
     }
 
@@ -89,7 +95,9 @@ public class Table extends JPanel implements Runnable {
         g.setColor(Color.RED); // Set color to red
         g.fillOval(playerMalletX - 30, playerMalletY - 30, 60, 60); // Draw mallet centered at mouse position
         puck.draw(g); // Draw the puck
-        comp.draw(g);
+        
+        g.setColor(Color.RED);
+		g.fillOval(compX - 30, compY - 30, 60, 60);
     }
 
 }
