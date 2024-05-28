@@ -11,7 +11,7 @@ public class Table extends JPanel implements Runnable {
     int compX = 250;
     int compY = 100;
     float compAngle = 0;
-	float compSpeed = 0;
+	float compSpeed = 5;
     
     Puck puck;
     AirHockey airhockey;
@@ -79,7 +79,21 @@ public class Table extends JPanel implements Runnable {
             double distance = Math.sqrt(Math.pow(posxChange, 2) + Math.pow(posyChange, 2)); // compares current position from position 20 millis ago
             playerMalletSpeed = (float)(distance);
             
-            repaint(); // will be utilized for 
+            if(puck.puckY < 430) { // computer mallet will go chase the puck and hit it
+            	compAngle = (float) Math.atan2(puck.puckY - compY, puck.puckX - compX);
+            	
+            	// Move the computer mallet
+                compX += compSpeed * Math.cos(compAngle);
+                compY += compSpeed * Math.sin(compAngle);
+            }
+            else if (compX != 250 && compY != compX){ // go back to initial position (250, 100)
+            	compAngle = (float) Math.atan2(100 - compY, 250 - compX);
+            	
+            	// Move the computer mallet
+                compX += compSpeed * Math.cos(compAngle);
+                compY += compSpeed * Math.sin(compAngle);
+            }
+            repaint(); // will be utilized for repainting the computer mallet
         }
     }
 
