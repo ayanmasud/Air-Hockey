@@ -9,7 +9,6 @@ public class Puck implements Runnable{
     float puckSpeed;
     float maxPuckSpeed = 10;
     Table table;
-    Computer computer;
     AirHockey airhockey;
 
     public Puck(Table table, AirHockey airhockey) {
@@ -52,12 +51,12 @@ public class Puck implements Runnable{
         }
         if(table.CompHitPuck()) {
         	
-        	//puckAngle = (float) Math.atan2(puckY - table.playerMalletY, puckY -table.playerMalletX);
-        	//puckSpeed /= 1.3;
-        	//puckSpeed += (puckSpeed/4)*(computer.compSpeed/4); 
-        	//if(puckSpeed > maxPuckSpeed) {
-        		//puckSpeed = maxPuckSpeed;
-        	//}
+        	puckAngle = (float) Math.atan2(puckY - table.compY, puckY -table.compX);
+        	puckSpeed /= 1.3;
+        	puckSpeed += (puckSpeed/4)*(table.compSpeed/4); 
+        	if(puckSpeed > maxPuckSpeed) {
+        		puckSpeed = maxPuckSpeed;
+        	}
         	
         	
         }
@@ -78,6 +77,20 @@ public class Puck implements Runnable{
         	double puckMoveY = Math.sin(puckAngle)*55;
         	puckX = (int)(table.playerMalletX + puckMoveX);
             puckY = (int)(table.playerMalletY + puckMoveY);
+        }
+        
+        double compDistance = Math.sqrt(Math.pow(table.compX - puckX, 2) + Math.pow(table.compY - puckY, 2)); // ensures no overlaps occur when the puck is hit by computer mallet
+        if(compDistance < 55) {
+        	puckAngle = (float) Math.atan2(puckY - table.compY, puckX - table.compX);
+            puckSpeed /= 1.3; // slows down after hitting
+            puckSpeed += (puckSpeed/4)*(table.compSpeed/4); // puck speed with computer speed
+            if(puckSpeed > maxPuckSpeed) { // ensures puck speed is never too high
+            	puckSpeed = maxPuckSpeed;
+            }
+        	double puckMoveX = Math.cos(puckAngle)*55;
+        	double puckMoveY = Math.sin(puckAngle)*55;
+        	puckX = (int)(table.compX + puckMoveX);
+            puckY = (int)(table.compY + puckMoveY);
         }
 
         // collisions with table boundaries
