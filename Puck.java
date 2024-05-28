@@ -62,6 +62,9 @@ public class Puck implements Runnable{
         }
 
         // Move the puck
+        if(puckSpeed > maxPuckSpeed) {
+    		puckSpeed = maxPuckSpeed;
+    	}
         puckX += puckSpeed * Math.cos(puckAngle);
         puckY += puckSpeed * Math.sin(puckAngle);
         
