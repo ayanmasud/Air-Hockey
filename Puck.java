@@ -7,12 +7,13 @@ public class Puck implements Runnable{
     int puckY;
     float puckAngle;
     float puckSpeed;
-    float maxPuckSpeed = 27;
+    float maxPuckSpeed = 10;
     Table table;
     Computer computer;
     AirHockey airhockey;
 
-    public Puck(Table table) {
+    public Puck(Table table, AirHockey airhockey) {
+    	this.airhockey = airhockey;
         this.table = table;
         // Initialize puck variables
         puckX = 250;
@@ -96,10 +97,18 @@ public class Puck implements Runnable{
         
         // puck inside goal
         if(puckY < 35 - 25) { // player scored!
-        	//airhockey.PlayerScored();
+        	airhockey.PlayerScored();
+        	puckX = 250;
+            puckY = 650;
+            puckAngle = 0;
+            puckSpeed = 0;
         }
         if(puckY > 858 + 25) { // computer scored!
-        	//airhockey.ComputerScored();
+        	airhockey.ComputerScored();
+        	puckX = 250;
+            puckY = 650;
+            puckAngle = 0;
+            puckSpeed = 0;
         }
 
         // friction to slow down the puck over time
