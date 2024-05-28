@@ -114,6 +114,13 @@ public class AirHockey implements ActionListener {
             }
         	playerPoints = 0; // set it to the new score
         	pPoints[playerPoints].setBackground(Color.red);
+        	for (int i = 0; i < 11; i++) { // reset all of the computer points
+                cPoints[i].setOpaque(true); // Set opaque to true to allow setting background color
+                cPoints[i].setBackground(Color.BLACK); // Set background color to black
+                cPoints[i].setForeground(Color.WHITE); // Set text color to white
+            }
+        	computerPoints = 0; // set it to the new score
+        	cPoints[computerPoints].setBackground(Color.red);
     	}
     }
     
@@ -135,6 +142,13 @@ public class AirHockey implements ActionListener {
             }
         	computerPoints = 0; // set it to the new score
         	cPoints[computerPoints].setBackground(Color.red);
+        	for (int i = 0; i < 11; i++) { // reset all the player points
+                pPoints[i].setOpaque(true); // Set opaque to true to allow setting background color
+                pPoints[i].setBackground(Color.BLACK); // Set background color to black
+                pPoints[i].setForeground(Color.WHITE); // Set text color to white
+            }
+        	playerPoints = 0; // set it to the new score
+        	pPoints[playerPoints].setBackground(Color.red);
     	}
     }
 }
