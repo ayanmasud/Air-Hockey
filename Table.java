@@ -7,12 +7,12 @@ public class Table extends JPanel implements Runnable {
     int playerMalletX = 250;
     int playerMalletY = 800;
     float playerMalletSpeed = 0;
-    
+
     int compX = 250;
     int compY = 100;
     float compAngle = 0;
-	float compSpeed = 5;
-    
+    float compSpeed = 5;
+
     Puck puck;
     AirHockey airhockey;
     public Table(AirHockey airhockey) {
@@ -22,13 +22,13 @@ public class Table extends JPanel implements Runnable {
             public void mouseMoved(MouseEvent e) {
                 playerMalletX = e.getX();
                 playerMalletY = e.getY();
-                
+
                 if(PlayerHitPuck()) {
                     puck.move();
                 }
-                
-                
-                
+
+
+
                 if(playerMalletY < 470) { // restrictions to ensure players mallet doesn't go off the table
                     playerMalletY = 470;
                 }
@@ -57,12 +57,12 @@ public class Table extends JPanel implements Runnable {
         return false;
     }
     public boolean CompHitPuck() {
-    	double distance = Math.sqrt(Math.pow(compX - puck.puckX, 2) + Math.pow(compY - puck.puckY, 2));
+        double distance = Math.sqrt(Math.pow(compX - puck.puckX, 2) + Math.pow(compY - puck.puckY, 2));
 
-    	if(distance <= 55) {
+        if(distance <= 55) {
             return true;
         }
-    	return false;
+        return false;
     }
     @Override
     public void run() { // used for determining how fast the player is moving
@@ -78,20 +78,38 @@ public class Table extends JPanel implements Runnable {
             int posyChange = Math.abs(playerMalletY-posy);
             double distance = Math.sqrt(Math.pow(posxChange, 2) + Math.pow(posyChange, 2)); // compares current position from position 20 millis ago
             playerMalletSpeed = (float)(distance);
-            
-            if(puck.puckY < 430) { // computer mallet will go chase the puck and hit it
-            	compAngle = (float) Math.atan2(puck.puckY - compY, puck.puckX - compX);
-            	
-            	// Move the computer mallet
-                compX += compSpeed * Math.cos(compAngle);
-                compY += compSpeed * Math.sin(compAngle);
+            if(playerMalletSpeed > 10) { // prevents it from being way too fast
+                playerMalletSpeed = 10;
             }
-            else if (compX != 250 && compY != compX){ // go back to initial position (250, 100)
-            	compAngle = (float) Math.atan2(100 - compY, 250 - compX);
-            	
-            	// Move the computer mallet
+
+            if(puck.puckY < 430) { // computer mallet will go chase the puck and hit it
+                compAngle = (float) Math.atan2((puck.puckY-20) - compY, puck.puckX - compX);
+
+                // Move the computer mallet
                 compX += compSpeed * Math.cos(compAngle);
                 compY += compSpeed * Math.sin(compAngle);
+
+                if(compX < 30) { // restrictions to ensure computer mallet doesn't go off the table
+                    compX = 30;
+                }
+                if(compY < 40) {
+                    compY = 40;
+                }
+                if(compX > 454) {
+                    compX = 454;
+                }
+                if(compY > 420) {
+                    compY = 420;
+                }
+            }
+            else { // go back to initial position (250, 100)
+                if(compX != 250 && compY != compX) {
+                    compAngle = (float) Math.atan2(100 - compY, 250 - compX);
+
+                    // Move the computer mallet
+                    compX += compSpeed * Math.cos(compAngle);
+                    compY += compSpeed * Math.sin(compAngle);
+                }
             }
             repaint(); // will be utilized for repainting the computer mallet
         }
@@ -109,9 +127,9 @@ public class Table extends JPanel implements Runnable {
         g.setColor(Color.RED); // Set color to red
         g.fillOval(playerMalletX - 30, playerMalletY - 30, 60, 60); // Draw mallet centered at mouse position
         puck.draw(g); // Draw the puck
-        
+
         g.setColor(Color.RED);
-		g.fillOval(compX - 30, compY - 30, 60, 60);
+        g.fillOval(compX - 30, compY - 30, 60, 60);
     }
 
 }
