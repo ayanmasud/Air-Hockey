@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 public class AirHockey implements ActionListener {
 
-	JFrame frame = new JFrame();
+    JFrame frame = new JFrame();
     Table table = new Table(this);
     Container north = new Container();
     JLabel difficultyL = new JLabel("Difficulty:");
@@ -27,10 +27,10 @@ public class AirHockey implements ActionListener {
         JPanel row1 = new JPanel(new GridLayout(1, 4));
         row1.add(difficultyL);
         row1.add(easyB);
-        easyB.setBackground(Color.green);
+        easyB.setBackground(Color.lightGray);
         easyB.addActionListener(this);
         row1.add(mediumB);
-        mediumB.setBackground(Color.lightGray);
+        mediumB.setBackground(Color.green);
         mediumB.addActionListener(this);
         row1.add(hardB);
         hardB.setBackground(Color.lightGray);
@@ -81,74 +81,77 @@ public class AirHockey implements ActionListener {
             mediumB.setBackground(Color.lightGray);
             hardB.setBackground(Color.lightGray);
 
+            table.compSpeed = 3;
         }
         if(e.getSource().equals(mediumB)) { // medium difficulty
             mediumB.setBackground(Color.green);
             easyB.setBackground(Color.lightGray);
             hardB.setBackground(Color.lightGray);
 
+            table.compSpeed = 5;
         }
         if(e.getSource().equals(hardB)) { // hard difficulty
             hardB.setBackground(Color.green);
             easyB.setBackground(Color.lightGray);
             mediumB.setBackground(Color.lightGray);
 
+            table.compSpeed = 10;
         }
     }
-    
+
     public void PlayerScored() {
-    	for (int i = 0; i < 11; i++) { // reset all the player points
+        for (int i = 0; i < 11; i++) { // reset all the player points
             pPoints[i].setOpaque(true); // Set opaque to true to allow setting background color
             pPoints[i].setBackground(Color.BLACK); // Set background color to black
             pPoints[i].setForeground(Color.WHITE); // Set text color to white
         }
-    	playerPoints += 1; // set it to the new score
-    	pPoints[playerPoints].setBackground(Color.red);
-    	
-    	if(playerPoints == 10) {
-    		JOptionPane.showMessageDialog(frame, "You Win!");
-    		for (int i = 0; i < 11; i++) { // reset all the player points
+        playerPoints += 1; // set it to the new score
+        pPoints[playerPoints].setBackground(Color.red);
+
+        if(playerPoints == 10) {
+            JOptionPane.showMessageDialog(frame, "You Win!");
+            for (int i = 0; i < 11; i++) { // reset all the player points
                 pPoints[i].setOpaque(true); // Set opaque to true to allow setting background color
                 pPoints[i].setBackground(Color.BLACK); // Set background color to black
                 pPoints[i].setForeground(Color.WHITE); // Set text color to white
             }
-        	playerPoints = 0; // set it to the new score
-        	pPoints[playerPoints].setBackground(Color.red);
-        	for (int i = 0; i < 11; i++) { // reset all of the computer points
+            playerPoints = 0; // set it to the new score
+            pPoints[playerPoints].setBackground(Color.red);
+            for (int i = 0; i < 11; i++) { // reset all of the computer points
                 cPoints[i].setOpaque(true); // Set opaque to true to allow setting background color
                 cPoints[i].setBackground(Color.BLACK); // Set background color to black
                 cPoints[i].setForeground(Color.WHITE); // Set text color to white
             }
-        	computerPoints = 0; // set it to the new score
-        	cPoints[computerPoints].setBackground(Color.red);
-    	}
+            computerPoints = 0; // set it to the new score
+            cPoints[computerPoints].setBackground(Color.red);
+        }
     }
-    
+
     public void ComputerScored() {
-    	for (int i = 0; i < 11; i++) { // reset all of the computer points
+        for (int i = 0; i < 11; i++) { // reset all of the computer points
             cPoints[i].setOpaque(true); // Set opaque to true to allow setting background color
             cPoints[i].setBackground(Color.BLACK); // Set background color to black
             cPoints[i].setForeground(Color.WHITE); // Set text color to white
         }
-    	computerPoints += 1; // set it to the new score
-    	cPoints[computerPoints].setBackground(Color.red);
-    	
-    	if(computerPoints == 10) {
-    		JOptionPane.showMessageDialog(frame, "Computer Win!");
-    		for (int i = 0; i < 11; i++) { // reset all of the computer points
+        computerPoints += 1; // set it to the new score
+        cPoints[computerPoints].setBackground(Color.red);
+
+        if(computerPoints == 10) {
+            JOptionPane.showMessageDialog(frame, "Computer Win!");
+            for (int i = 0; i < 11; i++) { // reset all of the computer points
                 cPoints[i].setOpaque(true); // Set opaque to true to allow setting background color
                 cPoints[i].setBackground(Color.BLACK); // Set background color to black
                 cPoints[i].setForeground(Color.WHITE); // Set text color to white
             }
-        	computerPoints = 0; // set it to the new score
-        	cPoints[computerPoints].setBackground(Color.red);
-        	for (int i = 0; i < 11; i++) { // reset all the player points
+            computerPoints = 0; // set it to the new score
+            cPoints[computerPoints].setBackground(Color.red);
+            for (int i = 0; i < 11; i++) { // reset all the player points
                 pPoints[i].setOpaque(true); // Set opaque to true to allow setting background color
                 pPoints[i].setBackground(Color.BLACK); // Set background color to black
                 pPoints[i].setForeground(Color.WHITE); // Set text color to white
             }
-        	playerPoints = 0; // set it to the new score
-        	pPoints[playerPoints].setBackground(Color.red);
-    	}
+            playerPoints = 0; // set it to the new score
+            pPoints[playerPoints].setBackground(Color.red);
+        }
     }
 }
