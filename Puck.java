@@ -12,7 +12,7 @@ public class Puck implements Runnable{
     AirHockey airhockey;
 
     public Puck(Table table, AirHockey airhockey) {
-    	this.airhockey = airhockey;
+        this.airhockey = airhockey;
         this.table = table;
         // Initialize puck variables
         puckX = 250;
@@ -44,55 +44,60 @@ public class Puck implements Runnable{
             puckAngle = (float) Math.atan2(puckY - table.playerMalletY, puckX - table.playerMalletX);
             puckSpeed /= 1.3; // slows down after hitting
             puckSpeed += (puckSpeed/4)*(table.playerMalletSpeed/4); // puck speed with player speed
-            
+
             if(puckSpeed > maxPuckSpeed) { // ensures puck speed is never too high
-            	puckSpeed = maxPuckSpeed;
+                puckSpeed = maxPuckSpeed;
             }
         }
         if(table.CompHitPuck()) {
-        	
-        	puckAngle = (float) Math.atan2(puckY - table.compY, puckY -table.compX);
-        	puckSpeed /= 1.3;
-        	puckSpeed += (puckSpeed/4)*(table.compSpeed/4); 
-        	if(puckSpeed > maxPuckSpeed) {
-        		puckSpeed = maxPuckSpeed;
-        	}
-        	
-        	
+
+            puckAngle = (float) Math.atan2(puckY - table.compY, puckY -table.compX);
+            puckSpeed /= 1.3;
+            puckSpeed += (puckSpeed/4)*(table.compSpeed/4);
+            if(puckSpeed > maxPuckSpeed) {
+                puckSpeed = maxPuckSpeed;
+            }
+
+
         }
 
         // Move the puck
         if(puckSpeed > maxPuckSpeed) {
-    		puckSpeed = maxPuckSpeed;
-    	}
+            puckSpeed = maxPuckSpeed;
+        }
         puckX += puckSpeed * Math.cos(puckAngle);
         puckY += puckSpeed * Math.sin(puckAngle);
-        
+
+        if(puckX == 24 && puckY == 34 || puckX == 24 && puckY == 35 || puckX == 25 && puckY == 34 || puckX == 25 && puckY == 35
+                || puckX == 459 && puckY == 34 || puckX == 460 && puckY == 34 || puckX == 459 && puckY == 35 || puckX == 460 && puckY == 35) { // preventing puck from getting stuck in corners
+            puckY = 50;
+        }
+
         double distance = Math.sqrt(Math.pow(table.playerMalletX - puckX, 2) + Math.pow(table.playerMalletY - puckY, 2)); // ensures no overlaps occur when the puck is hit by player mallet
         if(distance < 55 && table.playerMalletY > 440) {
-        	puckAngle = (float) Math.atan2(puckY - table.playerMalletY, puckX - table.playerMalletX);
+            puckAngle = (float) Math.atan2(puckY - table.playerMalletY, puckX - table.playerMalletX);
             puckSpeed /= 1.3; // slows down after hitting
             puckSpeed += (puckSpeed/4)*(table.playerMalletSpeed/4); // puck speed with player speed
             if(puckSpeed > maxPuckSpeed) { // ensures puck speed is never too high
-            	puckSpeed = maxPuckSpeed;
+                puckSpeed = maxPuckSpeed;
             }
-        	double puckMoveX = Math.cos(puckAngle)*55;
-        	double puckMoveY = Math.sin(puckAngle)*55;
-        	puckX = (int)(table.playerMalletX + puckMoveX);
+            double puckMoveX = Math.cos(puckAngle)*55;
+            double puckMoveY = Math.sin(puckAngle)*55;
+            puckX = (int)(table.playerMalletX + puckMoveX);
             puckY = (int)(table.playerMalletY + puckMoveY);
         }
-        
+
         double compDistance = Math.sqrt(Math.pow(table.compX - puckX, 2) + Math.pow(table.compY - puckY, 2)); // ensures no overlaps occur when the puck is hit by computer mallet
         if(compDistance < 55) {
-        	puckAngle = (float) Math.atan2(puckY - table.compY, puckX - table.compX);
+            puckAngle = (float) Math.atan2(puckY - table.compY, puckX - table.compX);
             puckSpeed /= 1.3; // slows down after hitting
             puckSpeed += (puckSpeed/4)*(table.compSpeed/4); // puck speed with computer speed
             if(puckSpeed > maxPuckSpeed) { // ensures puck speed is never too high
-            	puckSpeed = maxPuckSpeed;
+                puckSpeed = maxPuckSpeed;
             }
-        	double puckMoveX = Math.cos(puckAngle)*55;
-        	double puckMoveY = Math.sin(puckAngle)*55;
-        	puckX = (int)(table.compX + puckMoveX);
+            double puckMoveX = Math.cos(puckAngle)*55;
+            double puckMoveY = Math.sin(puckAngle)*55;
+            puckX = (int)(table.compX + puckMoveX);
             puckY = (int)(table.compY + puckMoveY);
         }
 
@@ -110,18 +115,18 @@ public class Puck implements Runnable{
             puckY = Math.max(35, Math.min(858, puckY));
             puckSpeed /= 1.3; // slows down after hitting
         }
-        
+
         // puck inside goal
         if(puckY < 35 - 25) { // player scored!
-        	airhockey.PlayerScored();
-        	puckX = 250;
+            airhockey.PlayerScored();
+            puckX = 250;
             puckY = 650;
             puckAngle = 0;
             puckSpeed = 0;
         }
         if(puckY > 858 + 25) { // computer scored!
-        	airhockey.ComputerScored();
-        	puckX = 250;
+            airhockey.ComputerScored();
+            puckX = 250;
             puckY = 650;
             puckAngle = 0;
             puckSpeed = 0;
@@ -139,7 +144,7 @@ public class Puck implements Runnable{
             puckAngle += changeAngle;
             puckSpeed += changeSpeed;
             if(puckSpeed > maxPuckSpeed) { // ensures puck speed is never too high
-            	puckSpeed = maxPuckSpeed;
+                puckSpeed = maxPuckSpeed;
             }
         }
 
