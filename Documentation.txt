@@ -1,0 +1,77 @@
+Play Air Hockey against the computer
+Authors: Ayan Masud & Anish Rao
+Date: 6/4/24
+
+
+// Visuals
+The computers difficulty can be changed through the 3 buttons at the top of the window. (Easy, Medium, Hard) The change in difficulty means the change in speed that the computer can move at. Easy means the computer moves slow. Hard means the computer moves fast. (AirHockey.java class in actionPerformed() method)
+Below the difficulty is the computers points
+Below the computers points is the table where you play Air Hockey
+Below the table is the players points
+
+|Difficulty:    |Easy|Medium|Hard| <- Computer Difficulty
+|--------------------------------|
+|0  1  2  3  4  5  6  7  8  9  10| <- Computer Score
+|--------------------------------|
+|---------|            |---------|
+|             ------             |
+|             |    | Computer    |
+|             |    | Mallet      |
+|             ------             |
+|                                |
+|                                |
+|                                |
+|                                |
+|                                |
+|--------------------------------|
+|                                |
+|              ----              |
+|              |  | Puck         |
+|              ----              |
+|                                |
+|             ------             |
+|             |    | Player      |
+|             |    | Mallet      |
+|             ------             |
+|---------|            |---------|
+|--------------------------------|
+|0  1  2  3  4  5  6  7  8  9  10| <- Player Score
+
+
+// Scoring Points
+Points are scored by getting the puck to go in the goal on the opponent side.
+Your goal is to reach a total of 10 points before the computer does.
+
+In the AirHockey.java class, there is the PlayerScored() and ComputerScored() methods. When these methods have been called, the window updates visually. For example, the points will highlight 1 instead of 0. These methods are also used when determining if a player has won. If either the player or the computer reaches 10 points, JOptionPane is used to alert the player someone has won.
+
+The PlayerScored() and ComputerScored() methods are called in the Puck.java class in the move() method. Deciding which side scored is determined based off the y location of the puck. The move() method resets the puck and computer mallet position when a point is scored.
+
+
+// Player Hitting Puck
+The player mallet follows your computer cursor
+The player mallet stays within the boundaries of their side
+
+When the players mallet touches/overlaps the puck, which is determined by using the distance formula (Table.java class in PlayerHitPuck() method or Puck.java in move() method), the angle of rotation is then determined by using Math.atan2 (Puck.java class in move() method). The move amount for the puck is then determined by multiplying the puck speed with the sin(angle of rotation) for the y location and cos(angle of rotation) for the x location. The location of the puck is updates every 20 millis by using a Thread.
+
+Puck speed is determined based on how fast the player mallet hits the puck. Using a Thread, the player mallet speed is determined by comparing the location of the player mallet now and the player mallet 20 millis ago. The 2 locations are then compared to find the distance the player mallet traveled. The distance is our representation for the players mallet speed (Table.java class in run() method). The player mallet has a maximum speed to prevent the puck from going too fast.
+
+
+// Computer Hitting Puck
+The computer mallet stays within the boundaries of their side
+
+If the puck is in the computers side, computer mallet will chase a little behind the puck. Otherwise, it will move to its starting position (Table.java class in run() method). The movement is done the same way the player mallet hits the puck. Math.atan2 is used to determine the angle of rotation the computer mallet needs to head in in order to go to the puck location (-20 in the y so that it goes towards the back of the puck). Computer mallet then moves by multiplying its fixed speed with sin(angle of rotation) for the y location and cos(angle of rotation) for the x location. The computer mallets location updates every 20 millis by using a Thread.
+
+Method used for the hitting the puck off the computer mallet is the same as the player mallet.
+
+
+// Puck
+The puck has random rotation and speed when it is moving super slow/idle (Puck.java class in move() method)
+Over time, the puck slows down due to friction (Puck.java class in move() method)
+When the puck collides with a wall, the player mallet, or the computer mallet, the puck slows down a bit. This is done by multiplying the pucks speed with 1.3 whenever a collision occurs. 
+The puck stays within the boundaries of the table
+
+
+// Painting The Table
+In the Table.java class, there is a paintComponent() method that paints the table that is in the center of the border layout JFrame. In here, the player mallet, computer mallet, puck, and goals are drawn.
+
+
