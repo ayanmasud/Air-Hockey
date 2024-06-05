@@ -123,6 +123,8 @@ public class Puck implements Runnable{
             puckY = 650;
             puckAngle = 0;
             puckSpeed = 0;
+            table.compX = 250;
+            table.compY = 100;
         }
         if(puckY > 858 + 25) { // computer scored!
             airhockey.ComputerScored();
@@ -130,6 +132,8 @@ public class Puck implements Runnable{
             puckY = 650;
             puckAngle = 0;
             puckSpeed = 0;
+            table.compX = 250;
+            table.compY = 100;
         }
 
         // friction to slow down the puck over time
